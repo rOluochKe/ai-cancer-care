@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
   DragOverlay,
@@ -9,12 +8,11 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
+import ColumnContainer from "./ColumnContainer";
 import TaskCard from "./TaskCard";
 import { IconPlus } from "@tabler/icons-react";
 
 function KanbanBoard({ state }) {
-  console.log(state);
-
   const defaultCols =
     state?.state?.columns?.map((col) => ({
       id: col?.id,
@@ -35,11 +33,11 @@ function KanbanBoard({ state }) {
   const [activeTask, setActiveTask] = useState(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 10 } }),
   );
 
   return (
-    <div className="min-h-screen w-72 mt-5 text-white ">
+    <div className="mt-5 min-h-screen w-72 text-white">
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
@@ -65,7 +63,7 @@ function KanbanBoard({ state }) {
           </div>
           <button
             onClick={() => createNewColumn()}
-            className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg bg-mainBackgroundColor border-2 border-columnBackgroundColor p-4 ring-green-500 hover:ring-2 flex gap-2"
+            className="flex h-[60px] w-[350px] min-w-[350px] cursor-pointer gap-2 rounded-lg border-2 border-columnBackgroundColor bg-mainBackgroundColor p-4 ring-green-500 hover:ring-2"
           >
             <IconPlus />
             Add Column
@@ -82,7 +80,7 @@ function KanbanBoard({ state }) {
                 deleteTask={deleteTask}
                 updateTask={updateTask}
                 tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id
+                  (task) => task.columnId === activeColumn.id,
                 )}
               />
             )}
@@ -94,7 +92,7 @@ function KanbanBoard({ state }) {
               />
             )}
           </DragOverlay>,
-          document.body
+          document.body,
         )}
       </DndContext>
     </div>
@@ -116,7 +114,7 @@ function KanbanBoard({ state }) {
 
   function updateTask(id, content) {
     const newTasks = tasks.map((task) =>
-      task.id === id ? { ...task, content } : task
+      task.id === id ? { ...task, content } : task,
     );
     setTasks(newTasks);
   }
